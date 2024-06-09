@@ -1,15 +1,18 @@
+import 'package:eshop/const.dart';
 import 'package:eshop/extension/string_extension.dart';
+import 'package:eshop/model/emailrequest.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../../../../../component/input_outline_button.dart';
-import '../../../../../component/input_text_button.dart';
 import '../../../../../component/input_text_field.dart';
-import '../../../../../controller/controllers.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'sign_in_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  const SignUpScreen({Key? key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -17,19 +20,120 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController otpController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
+  bool _isLoading = false;
+  bool _isOtpSent = false;
 
   @override
   void dispose() {
     fullNameController.dispose();
     emailController.dispose();
     passwordController.dispose();
-    confirmController.dispose();
+    addressController.dispose();
+    otpController.dispose();
+    phoneController.dispose();
     super.dispose();
   }
+
+  // Trong Flutter
+  String _receivedOtp = '';
+  Future<void> _sendOtp() async {
+
+    if (emailController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter your email')));
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final emailRequest = EmailRequest(email: emailController.text);
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/send-mail/sendotpflutter'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(emailRequest.toJson()),
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        _isOtpSent = true;
+        _receivedOtp = response.body;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP sent to your email')));
+    } else {
+      EasyLoading.showSuccess('Email đã tồn tại');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to send OTP')));
+    }
+  }
+
+
+  // Function to register the user
+  // Function to register the user
+  Future<void> _registerUser() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      // Kiểm tra xem mã OTP đã nhập có rỗng không
+      if (otpController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter OTP')));
+        return;
+      }
+
+      // Kiểm tra xem mã OTP đã nhập có trùng với mã OTP gửi qua email hay không
+      if (otpController.text != _receivedOtp) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP không hợp lệ. Vui lòng nhập đúng OTP')));
+        return;
+      }
+
+      setState(() {
+        _isLoading = true;
+      });
+
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/auth'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "userId":0,
+          "status": true,
+          "gender": true,
+          'name': fullNameController.text,
+          'email': emailController.text,
+          'password': passwordController.text,
+          'phone': phoneController.text,
+          'address': addressController.text,
+          'otp': otpController.text,
+        }),
+      );
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration successful')));
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration failed')));
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +148,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Spacer(),
-                const Text("Create Account,",
+                const Text("Đăng ký tài khoản,",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 32,
                         fontWeight: FontWeight.bold)),
                 const Text(
-                  "Sign up to started!",
+                  "Đăng ký bắt đầu!",
                   style: TextStyle(
                       color: Colors.grey,
                       fontSize: 22,
@@ -61,18 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   flex: 3,
                 ),
                 InputTextField(
-                  title: 'Full Name',
-                  textEditingController: fullNameController,
-                  validation: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "This field can't be empty";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
-                InputTextField(
-                  title: 'Email',
+                  title: 'Nhập địa chỉ mail',
                   textEditingController: emailController,
                   validation: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -84,71 +177,76 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                 ),
                 const SizedBox(height: 10),
-                InputTextField(
-                  title: 'Password',
-                  obsecureText: true,
-                  textEditingController: passwordController,
-                  validation: (String? value) {
-                    List<String> validation = [];
-                    if (value == null || value.isEmpty) {
-                      return "This field can't be empty";
-                    } else {
-                      if (!value.isValidPasswordHasNumber) {
-                        validation.add("Must contain 1 number");
+                if (_isOtpSent)
+                  InputTextField(
+                    title: 'Mã xác thực otp',
+                    textEditingController: otpController,
+                    validation: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return "This field can't be empty";
                       }
-                      if (!value.isValidPasswordHasCapitalLetter) {
-                        validation.add("Must contain 1 capital letter");
-                      }
-                      if (!value.isValidPasswordHasLowerCaseLetter) {
-                        validation.add("Must contain 1 simple letter");
-                      }
-                      if (!value.isValidPasswordHasSpecialCharacter) {
-                        validation.add(
-                            "Must contain 1 special character[! @ # \$ %]");
-                      }
-                    }
-                    String msg = '';
-                    if (validation.isNotEmpty) {
-                      for (var i = 0; i < validation.length; i++) {
-                        msg = msg + validation[i];
-                        if ((i + 1) != validation.length) {
-                          msg = "$msg\n";
-                        }
-                      }
-                    }
-                    return msg.isNotEmpty ? msg : null;
-                  },
+                      return null;
+                    },
+                  ),
+                if (_isOtpSent) const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: _isOtpSent ? null : _sendOtp,
+                  child: Text('Lấy mã xác thực otp'),
                 ),
-                const SizedBox(height: 10),
-                InputTextField(
-                  title: 'Confirm Password',
-                  obsecureText: true,
-                  textEditingController: confirmController,
-                  validation: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "This field can't be empty";
-                    } else if (passwordController.text != value) {
-                      return "Confirm password not match";
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 10),
+                if (_isOtpSent)
+                  Column(
+                    children: [
+                      InputTextField(
+                        title: 'Họ và tên',
+                        textEditingController: fullNameController,
+                        validation: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "This field can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      InputTextField(
+                        title: 'Mật khẩu',
+                        obsecureText: true,
+                        textEditingController: passwordController,
+                      ),
+                      const SizedBox(height: 10),
+                      InputTextField(
+                        title: 'Số điện thoại',
+                        textEditingController: phoneController,
+                        validation: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "This field can't be empty";
+                          } else if (value.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return "Please enter a valid 10-digit phone number";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      InputTextField(
+                        title: 'Địa chỉ',
+                        textEditingController: addressController,
+                        validation: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "This field can't be empty";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
                 const Spacer(),
-                InputTextButton(
-                  title: "Sign Up",
-                  onClick: () {
-                    if (_formKey.currentState!.validate()) {
-                      authController.signUp(fullName: fullNameController.text,
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
-                    }
-                  },
-                ),
                 const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: _isOtpSent ? () => _registerUser() : null,
+                  child: Text("Đăng ký"),
+                ),
                 InputOutlineButton(
-                  title: "Back",
+                  title: "Quay lại",
                   onClick: () {
                     Navigator.of(context).pop();
                   },
@@ -159,7 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("I'm already a member, "),
+                    const Text("Tôi đã đăng ký rồi, "),
                     InkWell(
                       onTap: () {
                         Navigator.pushReplacement(
@@ -168,7 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 builder: (context) => const SignInScreen()));
                       },
                       child: const Text(
-                        "Sign In",
+                        "Đăng nhập",
                         style: TextStyle(color: Colors.blue),
                       ),
                     )
