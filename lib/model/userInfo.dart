@@ -7,8 +7,7 @@ class UserIf {
   final String phone;
   final String address;
   final bool gender;
-  final String image;
-  final String registerDate;
+  final String? image;
   final bool status;
 
   UserIf({
@@ -18,8 +17,7 @@ class UserIf {
     required this.phone,
     required this.address,
     required this.gender,
-    required this.image,
-    required this.registerDate,
+     this.image,
     required this.status,
   });
 
@@ -32,7 +30,7 @@ class UserIf {
       address: json['address'],
       gender: json['gender'],
       image: json['image'],
-      registerDate: json['registerDate'],
+
       status: json['status'],
     );
   }
@@ -45,7 +43,6 @@ class UserIf {
       'address': address,
       'gender': gender,
       'image': image,
-      'registerDate': registerDate,
       'status': status,
     };
   }

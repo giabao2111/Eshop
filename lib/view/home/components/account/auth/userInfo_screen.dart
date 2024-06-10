@@ -51,10 +51,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Center(
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundImage: NetworkImage(
-                            snapshot.data!.image), // Sử dụng hình ảnh từ API
+                        backgroundImage: snapshot.data!.image != null
+                            ? NetworkImage(snapshot.data!.image!)
+                            : null, // Trả về null nếu image là null
+                        child: snapshot.data!.image == null
+                            ? Icon(Icons.person) // Hiển thị biểu tượng mặc định nếu image là null
+                            : null, // Không có child khi backgroundImage được sử dụng
                       ),
                     ),
+
+
                     const SizedBox(height: 16),
                     Center(
                       child: Row(

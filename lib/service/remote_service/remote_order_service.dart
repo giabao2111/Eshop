@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:eshop/const.dart';
 import 'package:eshop/model/cart.dart';
 
+import '../../model/order.dart';
+
 Future<bool> checkout(String email, Cart cart) async {
   final String apiUrl = '$baseUrl/api/orders/$email'; // Tạo URL cho API checkout
 
@@ -25,5 +27,18 @@ Future<bool> checkout(String email, Cart cart) async {
     }
   } catch (e) {
     throw Exception('Failed to checkout: $e');
+  }
+}
+Future<List<Order>> getOrderList(String email) async {
+  String apiUrl = '$baseUrl/api/orders/user/$email';
+
+  final response = await http.get(Uri.parse(apiUrl));
+  print(response.statusCode);
+  if (response.statusCode == 200) {
+    final decodedBody = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonResponse = json.decode(decodedBody);
+    return jsonResponse.map((order) => Order.fromJson(order as Map<String, dynamic>)).toList();
+  } else {
+    throw Exception('Failed to load orders');
   }
 }

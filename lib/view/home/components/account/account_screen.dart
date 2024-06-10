@@ -1,3 +1,4 @@
+import 'package:eshop/view/home/components/account/auth/order_screen.dart';
 import 'package:eshop/view/home/components/account/auth/userInfo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -62,10 +63,29 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
 
-          buildAccountCard(title: "Thông báo", onClick: () {}),
-          buildAccountCard(title: "Cài đặc", onClick: () {}),
+          Obx(
+                () => buildAccountCard(
+              title: authController.user.value == null ? "" : "Lịch sử đặt hàng",
+              onClick: () {
+                if (authController.user.value != null) {
+                  // Nếu người dùng đã đăng nhập, chuyển hướng đến trang Profile và truyền token
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OrderListScreen(email: authController.user.value!.email)),
+                  );
+                } else {
+                  // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignInScreen()),
+                  );
+                }
+              },
+            ),
+          ),
+          buildAccountCard(title: "Cài đặt", onClick: () {}),
           Obx(() => buildAccountCard(title: authController.user.value==null?"Đăng nhập":
-          "Sign Out", onClick: () {
+          "Đăng xuất", onClick: () {
             if(authController.user.value!=null){
               authController.signOut();
             } else {

@@ -1,4 +1,5 @@
 import 'package:eshop/model/user.dart';
+import 'package:eshop/model/userInfo.dart';
 
 class Order {
   final int ordersId;
@@ -7,7 +8,7 @@ class Order {
   final String address;
   final String phone;
   final int status;
-  final User user;
+
 
   Order({
     required this.ordersId,
@@ -16,21 +17,20 @@ class Order {
     required this.address,
     required this.phone,
     required this.status,
-    required this.user,
+
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      ordersId: json['ordersId'] as int, // Chuyển đổi sang kiểu int
-      orderDate: DateTime.parse(json['orderDate'] as String), // Chuyển đổi sang kiểu DateTime
-      amount: (json['amount'] as num).toDouble(), // Chuyển đổi sang kiểu double
+      ordersId: json['ordersId'] as int,
+      orderDate: DateTime.parse(json['orderDate'] as String),
+      amount: (json['amount'] as num).toDouble(),
       address: json['address'] as String,
       phone: json['phone'] as String,
-      status: json['status'] as int, // Chuyển đổi sang kiểu int
-      user: User.fromJson(json['user'] as Map<String, dynamic>), // Chuyển đổi sang kiểu Map<String, dynamic>
+      status: json['status'] as int,
+
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'ordersId': ordersId,
@@ -39,7 +39,7 @@ class Order {
       'address': address.toString(),
       'phone': phone,
       'status': status,
-      'user': user.toJson(),
+
     };
   }
 }
