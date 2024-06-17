@@ -53,10 +53,10 @@ class DashboardScreen extends StatelessWidget {
               controller.updateIndex(val);
             },
             items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
-              BottomNavigationBarItem(icon: Icon(Icons.category), label: 'Sản phẩm'),
-              BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Yêu thích'),
-              BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Tài khoản')
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(icon: Icon(Icons.category), label: 'Products'),
+              BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
+              BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account')
             ],
           ),
         ),

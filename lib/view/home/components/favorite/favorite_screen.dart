@@ -12,9 +12,23 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (email == 'No email') {
+      // Nếu email là null, chuyển hướng sang màn hình LoginScreen
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/signin');
+      });
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Favorites list'),
+        ),
+        body: Center(
+          child: Text('Redirecting to Login...'),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Danh sách yêu thích'),
+        title: const Text('Favorites list'),
       ),
       body: FutureBuilder<List<Favorite>>(
         future:  fetchFavorites(email),
@@ -22,7 +36,9 @@ class FavoriteScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
+
             return Center(child: Text('Error: ${snapshot.error}'));
+
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No favorites found'));
           } else {
@@ -53,8 +69,8 @@ class FavoriteScreen extends StatelessWidget {
                     subtitle: Column(
                       crossAxisAlignment:  CrossAxisAlignment.start,
                       children: [
-                        Text('Số lượng bán: ${favorites[index].product.sold.toString()}'),
-                        Text('Giá: ${favorites[index].product.price.toStringAsFixed(0)}')
+                        Text('Sell number: ${favorites[index].product.sold.toString()}'),
+                        Text('Price: ${favorites[index].product.price.toStringAsFixed(0)}')
 
                       ],
                     ),

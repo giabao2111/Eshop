@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  'Danh mục sản phẩm',
+                  'Categories',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  'Sản phẩm bán chạy',
+                  'Selling products',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  'Sản phẩm mới',
+                  'New product',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),

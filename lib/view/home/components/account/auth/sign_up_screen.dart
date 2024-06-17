@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('OTP sent to your email')));
     } else {
-      EasyLoading.showSuccess('Email đã tồn tại');
+      EasyLoading.showSuccess('Email already exists');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to send OTP')));
     }
   }
@@ -110,6 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
         body: jsonEncode(<String, dynamic>{
           "userId":0,
+          "registerDate": DateTime.now().toIso8601String(),
           "status": true,
           "gender": true,
           'name': fullNameController.text,
@@ -148,13 +149,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Spacer(),
-                const Text("Đăng ký tài khoản,",
+                const Text("Register an account,",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 32,
                         fontWeight: FontWeight.bold)),
                 const Text(
-                  "Đăng ký bắt đầu!",
+                  "Registration begins!",
                   style: TextStyle(
                       color: Colors.grey,
                       fontSize: 22,
@@ -165,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   flex: 3,
                 ),
                 InputTextField(
-                  title: 'Nhập địa chỉ mail',
+                  title: 'Enter email address',
                   textEditingController: emailController,
                   validation: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -179,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 10),
                 if (_isOtpSent)
                   InputTextField(
-                    title: 'Mã xác thực otp',
+                    title: 'OTP verification code',
                     textEditingController: otpController,
                     validation: (String? value) {
                       if (value == null || value.isEmpty) {
@@ -191,13 +192,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 if (_isOtpSent) const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: _isOtpSent ? null : _sendOtp,
-                  child: Text('Lấy mã xác thực otp'),
+                  child: Text('Get otp authentication code'),
                 ),
                 if (_isOtpSent)
                   Column(
                     children: [
                       InputTextField(
-                        title: 'Họ và tên',
+                        title: 'Your full name',
                         textEditingController: fullNameController,
                         validation: (String? value) {
                           if (value == null || value.isEmpty) {
@@ -208,13 +209,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 10),
                       InputTextField(
-                        title: 'Mật khẩu',
+                        title: 'Password',
                         obsecureText: true,
                         textEditingController: passwordController,
                       ),
                       const SizedBox(height: 10),
                       InputTextField(
-                        title: 'Số điện thoại',
+                        title: 'Phone number',
                         textEditingController: phoneController,
                         validation: (String? value) {
                           if (value == null || value.isEmpty) {
@@ -227,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 10),
                       InputTextField(
-                        title: 'Địa chỉ',
+                        title: 'Address',
                         textEditingController: addressController,
                         validation: (String? value) {
                           if (value == null || value.isEmpty) {
@@ -243,10 +244,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: _isOtpSent ? () => _registerUser() : null,
-                  child: Text("Đăng ký"),
+                  child: Text("Register"),
                 ),
                 InputOutlineButton(
-                  title: "Quay lại",
+                  title: "Back",
                   onClick: () {
                     Navigator.of(context).pop();
                   },
@@ -257,7 +258,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Tôi đã đăng ký rồi, "),
+                    const Text("I have already registered, "),
                     InkWell(
                       onTap: () {
                         Navigator.pushReplacement(
@@ -266,7 +267,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 builder: (context) => const SignInScreen()));
                       },
                       child: const Text(
-                        "Đăng nhập",
+                        "Log in",
                         style: TextStyle(color: Colors.blue),
                       ),
                     )

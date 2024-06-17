@@ -81,9 +81,9 @@ class TopSellingProductsScreen extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Text('Đã bán: ${product.sold} sản phẩm'),
+                          Text('Sold: ${product.sold} products'),
                           Text(
-                            'Giá: ${product.discount > 0 ? (product.price * (1 - product.discount / 100)).toStringAsFixed(0) : (product.price % 1 == 0 ? product.price.toInt() : product.price.toStringAsFixed(2))} VND',
+                            'price: ${product.discount > 0 ? (product.price * (1 - product.discount / 100)).toStringAsFixed(0) : (product.price % 1 == 0 ? product.price.toInt() : product.price.toStringAsFixed(2))} VND',
                             style: TextStyle(
 
                               color: product.discount > 0 ? Colors.red : null, // Màu sắc cho giá khuyến mãi nếu cần

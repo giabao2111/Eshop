@@ -1,4 +1,5 @@
 import 'package:eshop/extension/string_extension.dart';
+import 'package:eshop/view/home/components/forgot_password/forgot_password_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../component/input_outline_button.dart';
@@ -84,7 +85,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
-                      onTap: (){},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen(),
+                          ),
+                        );
+                      },
                       child: const Text(
                         "Forgot Password",
                         style: TextStyle(fontSize: 12),
@@ -92,6 +100,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     )
                   ],
                 ),
+
                 const Spacer(),
                 InputTextButton(
                   title: "Sign In", onClick: (){

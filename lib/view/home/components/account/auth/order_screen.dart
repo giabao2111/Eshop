@@ -1,6 +1,7 @@
 import 'package:eshop/controller/controllers.dart';
 import 'package:eshop/model/order.dart';
 import 'package:eshop/service/remote_service/remote_order_service.dart';
+import 'package:eshop/view/home/components/order_detail/order_detail_slider.dart';
 import 'package:flutter/material.dart';
 
 class OrderListScreen extends StatefulWidget {
@@ -14,28 +15,65 @@ class OrderListScreen extends StatefulWidget {
 
 class _OrderListScreenState extends State<OrderListScreen> {
   late Future<List<Order>> _orderListFuture;
+
   @override
   void initState() {
     super.initState();
     _orderListFuture = getOrderList(authController.user.value!.email);
   }
+
   String getStatusText(int status) {
     switch (status) {
       case 0:
-        return 'Chờ xác nhận';
+        return 'Wait for confirmation';
       case 1:
-        return 'Đang giao hàng';
+        return 'Delivering';
       case 2:
-        return 'Đã giao';
+        return 'Delivered';
+      case 3:
+        return 'Canceled';
       default:
-        return 'Trạng thái không xác định';
+        return 'Unknown status';
     }
   }
+
+  void _navigateToOrderDetail(Order order) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => OrderDetailScreen(orderId: order.ordersId),
+    ));
+  }
+
+  void _cancelOrder(Order order) async {
+    try {
+      // Gọi API hoặc service để hủy đơn hàng
+      await cancelOrder(order.ordersId);
+      // Sau khi hủy thành công, cập nhật lại danh sách đơn hàng
+      setState(() {
+        _orderListFuture = getOrderList(authController.user.value!.email);
+      });
+      // Hiển thị thông báo hủy đơn hàng thành công
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Order #${order.ordersId} has been canceled successfully.'),
+        ),
+      );
+    } catch (error) {
+      // Xử lý trường hợp lỗi khi hủy đơn hàng
+      print('Error while canceling order: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred while canceling the order. Please try again later.'),
+        ),
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách đơn hàng'),
+        title: Text('List of orders'),
       ),
       body: FutureBuilder<List<Order>>(
         future: _orderListFuture,
@@ -51,26 +89,34 @@ class _OrderListScreenState extends State<OrderListScreen> {
             return Center(child: Text('Không có đơn hàng nào'));
           } else {
             // Hiển thị danh sách đơn hàng
-             return ListView.builder(
+            return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 Order order = snapshot.data![index];
-                return Column(
-                  children: [
-                    ListTile(
-                      title: Text('Mã đơn hàng #${order.ordersId}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Ngày đặt hàng: ${order.orderDate.toLocal().toString().split(' ')[0]}'),
-                          Text('Tổng tiền: ${order.amount}'),
-                          Text('Số điện thoại: ${order.phone}'),
-                          Text('Trạng thái: ${getStatusText(order.status)}'),
-                        ],
+                return GestureDetector(
+                  onTap: () => _navigateToOrderDetail(order), // Xử lý khi đơn hàng được chọn
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text('Code orders #${order.ordersId}'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Order date: ${order.orderDate.toLocal().toString().split(' ')[0]}'),
+                            Text('Total amount: ${order.amount.toStringAsFixed(0)}'),
+                            Text('Phone number: ${order.phone}'),
+                            Text('Status: ${getStatusText(order.status)}'),
+                          ],
+                        ),
                       ),
-                    ),
-                    Divider(), // Đường kẻ giữa các đơn hàng
-                  ],
+                      if (order.status == 0) // Hiển thị nút "Hủy đơn hàng" nếu trạng thái là Chờ xác nhận
+                        ElevatedButton(
+                          onPressed: () => _cancelOrder(order),
+                          child: Text('Cancel order'),
+                        ),
+                      Divider(), // Đường kẻ giữa các đơn hàng
+                    ],
+                  ),
                 );
               },
             );
@@ -80,3 +126,5 @@ class _OrderListScreenState extends State<OrderListScreen> {
     );
   }
 }
+
+

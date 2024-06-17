@@ -43,7 +43,7 @@ class CategoryScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final category = categories[index];
                     final imageUrl = categoryImages[category.categoryId] ??
-                        'https://example.com/images/default.jpg'; // URL hình ảnh mặc định
+                        'https://img.tgdd.vn/imgt/f_webp,fit_outside,quality_100/https://cdn.tgdd.vn//content/PC-24x24.png'; // URL hình ảnh mặc định
                     return GestureDetector(
                       onTap: () {
                         onCategorySelected(category.categoryId); // Gọi hàm callback khi danh mục được chọn

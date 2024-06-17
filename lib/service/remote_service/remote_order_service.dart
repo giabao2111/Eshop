@@ -42,3 +42,22 @@ Future<List<Order>> getOrderList(String email) async {
     throw Exception('Failed to load orders');
   }
 }
+Future<void> cancelOrder(int orderId) async {
+
+  final String cancelUrl = '$baseUrl/api/orders/cancel/$orderId';
+
+  try {
+    final response = await http.get(Uri.parse(cancelUrl));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      // Đơn hàng đã được hủy thành công
+      print('Đơn hàng đã được hủy thành công');
+    } else {
+      // Xử lý trường hợp không thành công
+      print('Không thể hủy đơn hàng: ${response.statusCode}');
+    }
+  } catch (e) {
+    // Xử lý trường hợp lỗi kết nối
+    print('Đã xảy ra lỗi khi kết nối đến máy chủ: $e');
+  }
+}

@@ -231,17 +231,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'Tổng tiền: ${totalPriceProduct.toStringAsFixed(0)} VND',
+                              'Total Price: ${totalPriceProduct.toStringAsFixed(0)} VND',
                               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'Tiết kiệm: ${(totalPriceProduct - totalPrice).toStringAsFixed(0)} VND',
+                              'Save money: ${(totalPriceProduct - totalPrice).toStringAsFixed(0)} VND',
                               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
 
 
                             Text(
-                              'Tổng tiền phải thanh toán: ${totalPrice.toStringAsFixed(0)} VND',
+                              'The total amount payable: ${totalPrice.toStringAsFixed(0)} VND',
                               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 16), // Add some space between the text and the button

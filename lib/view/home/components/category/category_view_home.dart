@@ -42,7 +42,7 @@ class CategoryScreenHome extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final category = categories[index];
                     final imageUrl = categoryImages[category.categoryId] ??
-                        'https://example.com/images/default.jpg'; // URL hình ảnh mặc định
+                        'https://img.tgdd.vn/imgt/f_webp,fit_outside,quality_100/https://cdn.tgdd.vn//content/PC-24x24.png'; // URL hình ảnh mặc định
                     return Container(
                       width: 120.0, // Chiều rộng của mỗi mục trong ListView
                       margin: const EdgeInsets.all(8.0),

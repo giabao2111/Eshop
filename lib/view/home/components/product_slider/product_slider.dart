@@ -36,7 +36,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Danh sách sản phẩm'),
+        title: const Text('List of products'),
       ),
       body: Column(
         children: [
@@ -125,10 +125,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                   subtitle: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Đã bán: ${product.sold} sản phẩm'),
+                                      Text('Sold: ${product.sold} product'),
                                       RichText(
                                         text: TextSpan(
-                                          text: 'Giá: ',
+                                          text: 'Price: ',
                                           style: DefaultTextStyle.of(context).style,
                                           children: <TextSpan>[
                                             TextSpan(
@@ -139,7 +139,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                             ),
                                             if (product.discount > 0) // Show discounted price if available
                                               TextSpan(
-                                                text: ' Giảm giá: ${(product.price * (1 - product.discount / 100)).toStringAsFixed(0)} VND',
+                                                text: ' Discount price: ${(product.price * (1 - product.discount / 100)).toStringAsFixed(0)} VND',
                                                 style: const TextStyle(
                                                   color: Colors.red, // or any other color you want for discounted price
                                                 ),

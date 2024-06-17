@@ -118,7 +118,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       );
 
       if (currentCart == null) {
-        EasyLoading.showError('Vui lòng đăng nhập');
+        EasyLoading.showError('Please log in');
         return;
       }
       print(widget.product);
@@ -135,7 +135,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       await addToCart(cartDetail);
 
       EasyLoading.dismiss();
-      EasyLoading.showSuccess('Thêm vào giỏ hàng thành công');
+      EasyLoading.showSuccess('Add to cart successfully');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ProductDetailScreen(product: widget.product)),
@@ -152,7 +152,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chi tiết sản phẩm'),
+        title: const Text('Product details'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -174,7 +174,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
-                  text: 'Giá: ',
+                  text: 'Price: ',
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
@@ -185,7 +185,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     if (widget.product.discount > 0) // Show discounted price if available
                       TextSpan(
-                        text: ' Giá giảm: ${(widget.product.price * (1 - widget.product.discount / 100)).toStringAsFixed(0)} VND',
+                        text: ' Discount price: ${(widget.product.price * (1 - widget.product.discount / 100)).toStringAsFixed(0)} VND',
                         style: const TextStyle(
                           color: Colors.red, // or any other color you want for discounted price
                         ),
@@ -195,12 +195,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
                const SizedBox(height: 8),
               Text(
-                'Số lượng bán: ${widget.product.sold}',
+                'Sell number: ${widget.product.sold}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Mô tả:',
+                'Description:',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 4),

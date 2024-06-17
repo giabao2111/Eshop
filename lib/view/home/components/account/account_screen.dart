@@ -34,7 +34,7 @@ class AccountScreen extends StatelessWidget {
               Column(
                 children:  [
                   Text(
-                    authController.user.value?.name??"Đăng nhập tài khoảng",
+                    authController.user.value?.name??"Log in to your account",
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   )
                 ],
@@ -44,7 +44,7 @@ class AccountScreen extends StatelessWidget {
           const SizedBox(height: 50),
           Obx(
                 () => buildAccountCard(
-              title: authController.user.value == null ? "" : "Thông tin cá nhân",
+              title: authController.user.value == null ? "" : "Personal information",
               onClick: () {
                 if (authController.user.value != null) {
                   // Nếu người dùng đã đăng nhập, chuyển hướng đến trang Profile và truyền token
@@ -65,7 +65,7 @@ class AccountScreen extends StatelessWidget {
 
           Obx(
                 () => buildAccountCard(
-              title: authController.user.value == null ? "" : "Lịch sử đặt hàng",
+              title: authController.user.value == null ? "" : "Order history",
               onClick: () {
                 if (authController.user.value != null) {
                   // Nếu người dùng đã đăng nhập, chuyển hướng đến trang Profile và truyền token
@@ -83,9 +83,9 @@ class AccountScreen extends StatelessWidget {
               },
             ),
           ),
-          buildAccountCard(title: "Cài đặt", onClick: () {}),
-          Obx(() => buildAccountCard(title: authController.user.value==null?"Đăng nhập":
-          "Đăng xuất", onClick: () {
+          buildAccountCard(title: "Setting", onClick: () {}),
+          Obx(() => buildAccountCard(title: authController.user.value==null?"Log in":
+          "Log out", onClick: () {
             if(authController.user.value!=null){
               authController.signOut();
             } else {

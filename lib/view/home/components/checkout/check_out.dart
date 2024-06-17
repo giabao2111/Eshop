@@ -58,7 +58,7 @@ class _EditCartScreenState extends State<EditCartScreen> {
         // Checkout
         final bool order = await checkout(widget.userEmail, updatedCart);
         print('Checkout successful: $order');
-        EasyLoading.showSuccess("Bạn đã đặt hàng thành công");
+        EasyLoading.showSuccess("Checkout successful");
 
         // Chuyển hướng về trang chủ
         Navigator.pushReplacementNamed(context, '/home'); // Đặt tên đúng của trang chủ
@@ -83,7 +83,7 @@ class _EditCartScreenState extends State<EditCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thông tin nhận hàng'),
+        title: Text('Customer address information'),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -97,12 +97,12 @@ class _EditCartScreenState extends State<EditCartScreen> {
               TextFormField(
                 initialValue: utf8.decode(widget.cart.user.name.codeUnits),
                 readOnly: true, // Không cho phép chỉnh sửa
-                decoration: InputDecoration(labelText: 'Họ và tên'),
+                decoration: InputDecoration(labelText: 'Full name'),
               ),
 
               TextFormField(
                 controller: _addressController,
-                decoration: InputDecoration(labelText: 'Địa chỉ nhận hàng'),
+                decoration: InputDecoration(labelText: 'Address of the store'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an address';
@@ -113,7 +113,7 @@ class _EditCartScreenState extends State<EditCartScreen> {
               TextFormField(
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
-                decoration: InputDecoration(labelText: 'Số điện thoại'),
+                decoration: InputDecoration(labelText: 'Phone number'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a phone number';
@@ -124,7 +124,7 @@ class _EditCartScreenState extends State<EditCartScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _editAndCheckout,
-                child: Text('xác nhận'),
+                child: Text('Confirm'),
               ),
             ],
           ),

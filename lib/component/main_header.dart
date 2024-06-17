@@ -55,7 +55,7 @@ class MainHeader extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: "Tìm Kiếm",
+                  hintText: "Search",
                   prefixIcon: const Icon(Icons.search),
                 ),
               ),
