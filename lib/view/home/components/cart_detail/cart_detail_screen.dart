@@ -114,7 +114,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Giỏ hàng'),
+        title: const Text('Cart'),
       ),
       body: FutureBuilder<Cart?>(
         future: _cartFuture,
@@ -262,7 +262,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                                 minimumSize: const Size(double.infinity, 36), // Full width button
                               ),
-                              child: const Text('Đặc hàng'),
+                              child: const Text('Order'),
                             ),
 
                           ],

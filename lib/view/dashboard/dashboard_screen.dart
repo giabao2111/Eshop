@@ -1,5 +1,6 @@
 import 'package:eshop/controller/controllers.dart';
 import 'package:eshop/controller/dasboard_controller.dart';
+import 'package:eshop/view/home/components/PriceGuessingGame/priceguessinggame_slider.dart';
 // Import AuthController
 import 'package:eshop/view/home/components/account/account_screen.dart';
 import 'package:eshop/view/home/components/favorite/favorite_screen.dart';
@@ -25,7 +26,8 @@ class DashboardScreen extends StatelessWidget {
             children: [
               const HomeScreen(),
               const ProductScreen(searchQuery: null), // Gửi null thay vì chuỗi rỗng
-              FavoriteScreen(email: authController.user.value?.email??"aa"),
+              PriceGuessingGame(),
+              // FavoriteScreen(email: authController.user.value?.email??"aa"),
               const AccountScreen(),
             ],
           ),
@@ -55,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(icon: Icon(Icons.category), label: 'Products'),
-              BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
+              BottomNavigationBarItem(icon: Icon(Icons.games), label: 'Game'),
               BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account')
             ],
           ),
