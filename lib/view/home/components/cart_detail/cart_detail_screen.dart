@@ -85,6 +85,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         // Tính toán giá mới dựa trên giá sau khi áp dụng khuyến mãi và số lượng mới
         final updatedPrice = priceDiscount * newQuantity;
 
+        // Kiểm tra nếu số lượng mới vượt quá số lượng sản phẩm hiện có
+        if (newQuantity > cartDetail.product.quantity) {
+          // Hiển thị thông báo cho người dùng (hoặc thực hiện hành động phù hợp)
+          print('Cannot add more than available quantity: ${cartDetail.product.quantity}');
+          return;
+        }
+
         // Tạo một đối tượng CartDetail mới với số lượng được cập nhật và giá mới
         final updatedCartDetail = CartDetail(
           cartDetailId: cartDetail.cartDetailId,
@@ -107,6 +114,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       print('Error updating cart detail quantity: $e');
     }
   }
+
 
 
 

@@ -59,12 +59,16 @@ class _PriceGuessingGameState extends State<PriceGuessingGame> {
         content: Text('You got $correctAnswers out of 10 correct!'),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _resetGame();
-            },
-            child: Text('OK'),
-          ),
+          onPressed: () {
+    Navigator.of(context).pop();
+    _resetGame();
+    if (correctAnswers == 10) {
+    Navigator.pushNamed(context, '/spinWheel');
+    }
+    },
+      child: Text('OK'),
+    ),
+
         ],
       ),
     );

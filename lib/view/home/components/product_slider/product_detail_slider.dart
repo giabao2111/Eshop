@@ -61,7 +61,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         isFavorite = true;
       });
       EasyLoading.dismiss(); // Dismiss loading before showing success
-      EasyLoading.showSuccess("Thêm vào danh sách thích thành công");
+      EasyLoading.showSuccess("Added to like list successfully");
 
     } catch (e) {
       print(e.toString());
@@ -81,7 +81,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         isFavorite = false;
       });
       EasyLoading.dismiss(); // Dismiss loading before showing success
-      EasyLoading.showSuccess("Đã xoá danh sản phẩm trong danh sách thích");
+      EasyLoading.showSuccess("Removed product name from favorites list");
 
     } catch (e) {
       print(e.toString());
@@ -144,7 +144,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     } catch (e) {
       print(e.toString());
       EasyLoading.dismiss();
-      EasyLoading.showError('Failed to add to cart. Try again!');
+      EasyLoading.showError('Product is out of stock');
     }
   }
 
@@ -212,11 +212,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
+                  widget.product.quantity == 0
+                      ? const Text(
+                    'Out of stock',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                  )
+                      : IconButton(
                     icon: const Icon(Icons.add_shopping_cart),
                     iconSize: 60,
                     onPressed: () {
-                      _addToCart(); // Thêm dấu ngoặc đơn ở đây
+                      _addToCart();
                     },
                   ),
                   const SizedBox(width: 20),

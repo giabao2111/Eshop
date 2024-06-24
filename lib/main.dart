@@ -1,6 +1,7 @@
 import 'package:eshop/route/app_page.dart';
 import 'package:eshop/route/app_route.dart';
 import 'package:eshop/theme/app_theme.dart';
+import 'package:eshop/view/home/components/PriceGuessingGame/WheelOfFortune.dart';
 import 'package:eshop/view/home/components/account/auth/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       getPages: AppPage.list,
       initialRoute: AppRoute.dashboard,
       routes: {
-        '/signin': (context) => SignInScreen(), // Định nghĩa SignInScreen
+        '/signin': (context) => SignInScreen(),
+        '/spinWheel': (context) => SpinWheel(),// Định nghĩa SignInScreen
         // Các định nghĩa route khác
       },
       debugShowCheckedModeBanner: false,

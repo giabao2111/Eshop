@@ -32,6 +32,8 @@ class _OrderListScreenState extends State<OrderListScreen> {
         return 'Delivered';
       case 3:
         return 'Canceled';
+      case 4:
+        return 'Completly payment';
       default:
         return 'Unknown status';
     }

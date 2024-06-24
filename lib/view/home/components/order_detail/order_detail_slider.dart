@@ -13,7 +13,7 @@ class OrderDetailScreen extends StatefulWidget {
 
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   late Future<List<OrderDetail>> _orderDetailsFuture;
-  final String placeholderImage = 'assets/placeholder_image.jpg'; // Đường dẫn của hình ảnh tạm thời
+  final String placeholderImage = ''; // Đường dẫn của hình ảnh tạm thời
 
   @override
   void initState() {
