@@ -5,13 +5,13 @@ import 'package:eshop/model/order_detail.dart';
 class OrderDetailScreen extends StatefulWidget {
   final int orderId;
 
-  OrderDetailScreen({required this.orderId});
+  const OrderDetailScreen({super.key, required this.orderId});
 
   @override
-  _OrderDetailScreenState createState() => _OrderDetailScreenState();
+  OrderDetailScreenState createState() => OrderDetailScreenState();
 }
 
-class _OrderDetailScreenState extends State<OrderDetailScreen> {
+class OrderDetailScreenState extends State<OrderDetailScreen> {
   late Future<List<OrderDetail>> _orderDetailsFuture;
   final String placeholderImage = ''; // Đường dẫn của hình ảnh tạm thời
 
@@ -25,13 +25,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order Details'),
+        title: const Text('Order Details'),
       ),
       body: FutureBuilder<List<OrderDetail>>(
         future: _orderDetailsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
               child: Text('Error: ${snapshot.error}'),

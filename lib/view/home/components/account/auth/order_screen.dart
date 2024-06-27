@@ -107,6 +107,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                             Text('Order date: ${order.orderDate.toLocal().toString().split(' ')[0]}'),
                             Text('Total amount: ${order.amount.toStringAsFixed(0)}'),
                             Text('Phone number: ${order.phone}'),
+                            Text('Delivery address: ${order.address}'),
                             Text('Status: ${getStatusText(order.status)}'),
                           ],
                         ),

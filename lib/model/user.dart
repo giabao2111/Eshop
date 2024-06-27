@@ -1,15 +1,15 @@
 class User {
   final String token;
   final int id;
-  final String name;
+  late final String name;
   final String email;
   // Không nên sử dụng trường 'password' để lưu mật khẩu ở dạng văn bản rõ ràng
   final String password;
   final String phone;
-  final String address;
-  final bool gender;
+   final String address;
+   final bool gender;
   final bool status;
-  final String image;
+   final String image;
   final String registerDate;
   final List<String> roles;
 

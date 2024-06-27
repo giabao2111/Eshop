@@ -1,5 +1,6 @@
 import 'package:eshop/view/home/components/account/auth/order_screen.dart';
 import 'package:eshop/view/home/components/account/auth/userInfo_screen.dart';
+import 'package:eshop/view/home/components/setting/profile_page_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -83,7 +84,12 @@ class AccountScreen extends StatelessWidget {
               },
             ),
           ),
-          buildAccountCard(title: "Setting", onClick: () {}),
+          buildAccountCard(title: "Setting", onClick: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>EditProfileScreen(userId: authController.user.value!.id)),
+            );
+          }),
           Obx(() => buildAccountCard(title: authController.user.value==null?"Log in":
           "Log out", onClick: () {
             if(authController.user.value!=null){

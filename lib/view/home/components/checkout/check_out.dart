@@ -64,6 +64,7 @@ class _EditCartScreenState extends State<EditCartScreen> {
         Navigator.pushReplacementNamed(context, '/home'); // Đặt tên đúng của trang chủ
       } catch (e) {
         print('Error: $e');
+        EasyLoading.showSuccess("Your cart has product out of stock");
       } finally {
         setState(() {
           _isLoading = false;

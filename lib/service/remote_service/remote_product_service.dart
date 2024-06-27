@@ -3,7 +3,7 @@ import 'package:eshop/const.dart';
 import 'package:eshop/model/product.dart';
 import 'package:http/http.dart' as http;
 class RemoteProductService{
-    final String remoteUrl='$baseUrl/api/products';
+    final String remoteUrl='$baseUrl/api/products/status';
     Future<List<Product>>fetchProduct() async{
         final response= await http.get(Uri.parse(remoteUrl));
     if(response.statusCode==200){

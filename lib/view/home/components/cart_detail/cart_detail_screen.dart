@@ -183,12 +183,20 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text(
-                                      'Tổng Giá: ${cartDetail.price.toStringAsFixed(0)} VND', // Thay đổi nội dung theo yêu cầu của bạn
+                                      'Total price: ${cartDetail.price.toStringAsFixed(0)} VND', // Thay đổi nội dung theo yêu cầu của bạn
                                       style: TextStyle(
                                         color: Colors.black, // Tuỳ chỉnh màu sắc nếu cần
                                         fontSize: 14, // Tuỳ chỉnh kích thước phù hợp
                                       ),
                                     ),
+                                    if (cartDetail.product.quantity == 0)
+                                      Text(
+                                        'Out of stock',
+                                        style: TextStyle(
+                                          color: Colors.red, // Tuỳ chỉnh màu sắc nếu cần
+                                          fontSize: 14, // Tuỳ chỉnh kích thước phù hợp
+                                        ),
+                                      ),
                                   ],
                                 ),
 
